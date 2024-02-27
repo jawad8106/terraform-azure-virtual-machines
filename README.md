@@ -66,5 +66,46 @@ Guidelines for contributing to your project go here.
 ## License
 GitHub GPL License.
 
+#
+Define Azure Storage Account and Blob Container in Terraform Configuration:
+In your Terraform configuration files (typically main.tf), define the Azure Storage Account and Blob Container resources using the azurerm_storage_account and azurerm_storage_container resource types provided by the AzureRM provider.
+
+# Locally redundant storage (LRS)—synchronously replicates data to three disks within a data center in the primary region.
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_storage_account" "example" {
+  name                     = "your_storage_account_name"
+  resource_group_name      = "your_resource_group_name"
+  location                 = "your_location"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_container" "example" {
+  name                  = "your_container_name"
+  storage_account_name  = azurerm_storage_account.example.name
+  container_access_type = "private"
+}
+
+Note:
+Replace your_storage_account_name, your_resource_group_name, your_location, and your_container_name with your desired values.
+
+Initialize and Apply Terraform Configuration:
+Once you've defined the resources in your Terraform configuration files, run the following commands in your Terraform configuration directory:
+
+
+terraform init
+terraform apply
+
+Terraform will initialize the working directory and download any required providers. Then, it will show you an execution plan, and if everything looks correct, you can confirm and apply the changes.
+
+Verify Resources:
+After Terraform applies the changes, you can verify in the Azure portal or using the Azure CLI that the Storage Account and Blob Container have been created with the specified configurations.
+
+
+
+
 
 
